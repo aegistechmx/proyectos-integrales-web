@@ -1,684 +1,489 @@
-import React, { useEffect, useState } from "react";
-import { createRoot } from "react-dom/client";
-import {
-  ArrowUpRight, Zap, DraftingCompass, Cable, ShieldCheck,
-  ClipboardCheck, Building2, Hotel, Factory, HardHat,
-  Mail, Phone, MapPin, Menu, X, CheckCircle2
-} from "lucide-react";
-import "./styles.css";
-
-const services = [
-  {
-    icon: DraftingCompass,
-    number: "01",
-    title: "Ingeniería eléctrica",
-    lead: "Diseño y cálculo para tomar decisiones con fundamento técnico.",
-    items: [
-      "Proyectos eléctricos de media y baja tensión",
-      "Diseño de infraestructura eléctrica y distribución",
-      "Ingeniería de subestaciones y sistemas de transformación",
-      "Cálculo de sistemas de puesta a tierra y protección contra descargas atmosféricas",
-      "Memorias técnicas, diagramas unifilares e ingeniería As-Built",
-      "Estudios de calidad de energía e iluminación"
-    ]
-  },
-  {
-    icon: Cable,
-    number: "02",
-    title: "Construcción eléctrica",
-    lead: "Ingeniería que se materializa en instalaciones.",
-    items: [
-      "Construcción de instalaciones eléctricas de media y baja tensión",
-      "Infraestructura para distribución eléctrica",
-      "Suministro e instalación de subestaciones y transformadores",
-      "Instalación de sistemas de puesta a tierra",
-      "Sistemas de protección contra descargas atmosféricas",
-      "Sistemas de regulación de voltaje y respaldo de energía"
-    ]
-  },
-  {
-    icon: ShieldCheck,
-    number: "03",
-    title: "Mantenimiento eléctrico",
-    lead: "Conservación de infraestructura y atención a la continuidad operativa.",
-    items: [
-      "Mantenimiento de subestaciones y equipos eléctricos",
-      "Mantenimiento de instalaciones de media y baja tensión",
-      "Mantenimiento de sistemas de regulación de voltaje",
-      "Sistemas de emergencia y respaldo de energía",
-      "Programas de mantenimiento preventivo, predictivo y correctivo"
-    ]
-  }
-];
-
-const projects = [
-  {
-    number: "01",
-    name: "One&Only Mandarina Private Homes",
-    location: "El Monteón · Riviera Nayarit",
-    scope: "Ingeniería de diseño eléctrico en media y baja tensión para villas residenciales."
-  },
-  {
-    number: "02",
-    name: "El Banco Estate · Lotes 01 y 02",
-    location: "Riviera Nayarit",
-    scope: "Ingeniería de diseño eléctrico en media y baja tensión.",
-    capacity: [
-      "Servicio normal: 300 kVA",
-      "Servicio de emergencia: 272 kVA"
-    ]
-  },
-  {
-    number: "03",
-    name: "Torres Designo",
-    location: "Huixquilucan · Estado de México",
-    scope: "Ingeniería eléctrica As-Built en media y baja tensión, para revisión ante UVIE.",
-    capacity: [
-      "Servicio normal: 800 kVA",
-      "Servicio de emergencia: 375 kVA"
-    ]
-  },
-  {
-    number: "04",
-    name: "Edificio Reforma 397",
-    location: "Ciudad de México",
-    scope: "Ingeniería e infraestructura eléctrica en media tensión; elaboración de catálogo de precios unitarios.",
-    capacity: [
-      "Servicio normal: 9 MVA",
-      "Servicio de emergencia: 5 MVA"
-    ]
-  },
-  {
-    number: "05",
-    name: "Fraccionamiento Vista Destiladeras",
-    location: "Riviera Nayarit",
-    scope: "Ingeniería de diseño e infraestructura eléctrica en media y baja tensión.",
-    capacity: [
-      "Servicio normal: 850 kVA"
-    ]
-  },
-  {
-    number: "06",
-    name: "Casa Noosa",
-    location: "Punta de Mita · Nayarit",
-    scope: "Ingeniería de diseño eléctrico en media y baja tensión.",
-    capacity: [
-      "Servicio normal: 150 kVA",
-      "Servicio de emergencia: 136 kVA"
-    ]
-  }
-];
-
-const sectors = [
-  {
-    icon: Building2,
-    number: "01",
-    title: "Desarrollos inmobiliarios",
-    description: "Ingeniería eléctrica para desarrollos residenciales, conjuntos habitacionales, villas y proyectos de usos mixtos."
-  },
-  {
-    icon: HardHat,
-    number: "02",
-    title: "Constructoras y desarrolladores",
-    description: "Colaboración técnica en infraestructura eléctrica, desde el diseño y cálculo hasta la integración de soluciones para su ejecución."
-  },
-  {
-    icon: Hotel,
-    number: "03",
-    title: "Hoteles y desarrollos turísticos",
-    description: "Soluciones eléctricas para hoteles y complejos turísticos, considerando distribución, transformación y respaldo de energía."
-  },
-  {
-    icon: Factory,
-    number: "04",
-    title: "Industria y comercio",
-    description: "Ingeniería eléctrica para instalaciones industriales y comerciales, atendiendo sus necesidades de capacidad, seguridad y continuidad operativa."
-  }
-];
-
-function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const closeMenu = () => setMenuOpen(false);
-
-  // Animaciones de entrada al desplazarse por la página
-  useEffect(() => {
-    const selectors = [
-      ".intro",
-      ".section-heading",
-      ".service-card",
-      ".project-card",
-      ".sector-card",
-      ".method-step",
-      ".cta-content"
-    ];
-
-    const elements = document.querySelectorAll(selectors.join(","));
-
-    if (!("IntersectionObserver" in window)) {
-      elements.forEach((element) => {
-        element.classList.add("is-visible");
-      });
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.12,
-        rootMargin: "0px 0px -32px 0px"
-      }
-    );
-
-    elements.forEach((element, index) => {
-      element.classList.add("reveal");
-
-      element.style.setProperty(
-        "--reveal-delay",
-        `${(index % 3) * 85}ms`
-      );
-
-      observer.observe(element);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div className="site-shell">
-
-      {/* NAVEGACIÓN */}
-      <header className="topbar">
-        <a
-          className="brand"
-          href="#inicio"
-          aria-label="Proyectos Integrales, inicio"
-          onClick={closeMenu}
-        >
-          <span className="brand-mark">PI<span>.</span></span>
-          <span className="brand-name">
-            PROYECTOS<br />INTEGRALES
-          </span>
-        </a>
-
-        <button
-          className="menu-toggle"
-          type="button"
-          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <X size={21} /> : <Menu size={21} />}
-        </button>
-
-        <nav
-          className={`nav-links ${menuOpen ? "is-open" : ""}`}
-          aria-label="Navegación principal"
-        >
-          <a href="#nosotros" onClick={closeMenu}>Nosotros</a>
-          <a href="#servicios" onClick={closeMenu}>Servicios</a>
-          <a href="#experiencia" onClick={closeMenu}>Experiencia</a>
-          <a href="#sectores" onClick={closeMenu}>Sectores</a>
-          <a href="#contacto" onClick={closeMenu}>Contacto</a>
-        </nav>
-
-        <a className="nav-cta" href="#contacto">
-          Hablemos de tu proyecto <ArrowUpRight size={16} />
-        </a>
-      </header>
-
-      <main>
-
-        {/* IDENTIDAD VISUAL */}
-        <section
-          className="brand-banner"
-          aria-label="Identidad visual de Proyectos Integrales"
-        >
-          <img
-            src="/brand-banner.png"
-            alt="Proyectos Integrales — Infrastructure, Energy, Innovation"
-          />
-        </section>
-
-        {/* HERO */}
-        <section className="hero" id="inicio">
-
-          <div className="hero-grid" />
-
-          <div className="hero-copy">
-            <div className="eyebrow">
-              <span className="eyebrow-line" />
-              INGENIERÍA · CONSTRUCCIÓN · MANTENIMIENTO
-            </div>
-
-            <h1>
-              Ingeniería eléctrica que se convierte en{" "}
-              <span>soluciones reales.</span>
-            </h1>
-
-            <p className="hero-lead">
-              Desarrollamos soluciones eléctricas para proyectos
-              residenciales, comerciales, turísticos e industriales.
-              Integramos diseño, cálculo, suministro, instalación y
-              mantenimiento con criterio técnico y atención personalizada.
-            </p>
-
-            <div className="hero-actions">
-              <a className="button button-primary" href="#contacto">
-                Solicitar propuesta técnica
-                <ArrowUpRight size={17} />
-              </a>
-
-              <a className="text-link" href="#experiencia">
-                Conocer nuestra experiencia <span>↓</span>
-              </a>
-            </div>
-
-            <div className="hero-note">
-              <span className="status-dot" />
-              Puerto Vallarta, Jalisco · Bahía de Banderas, Nayarit
-            </div>
-          </div>
-
-          {/* GRÁFICO TÉCNICO ANIMADO */}
-          <div
-            className="hero-visual"
-            aria-label="Gráfico técnico de ingeniería eléctrica"
-          >
-            <div className="visual-orbit orbit-one" />
-            <div className="visual-orbit orbit-two" />
-
-            <div className="visual-crosshair" />
-
-            <div className="visual-core">
-              <Zap size={54} strokeWidth={1.2} />
-            </div>
-
-            <div className="visual-pulse" />
-
-            <div className="visual-chip chip-left">
-              MT / BT
-              <small>INFRAESTRUCTURA</small>
-            </div>
-
-            <div className="visual-chip chip-right">
-              PI / ENGINEERING
-              <small>PRECISIÓN TÉCNICA</small>
-            </div>
-
-            <div className="visual-label label-top">
-              <span>PI / 01</span>
-              <b>INGENIERÍA APLICADA</b>
-            </div>
-
-            <div className="visual-label label-bottom">
-              <span>ENFOQUE</span>
-              <b>ANÁLISIS · DISEÑO · SOLUCIÓN</b>
-            </div>
-
-            <div className="visual-coordinate">
-              DISEÑO<br />
-              CÁLCULO<br />
-              INFRAESTRUCTURA
-            </div>
-          </div>
-
-          <div className="hero-footer">
-            <span>DISEÑO CON FUNDAMENTO</span>
-            <span className="footer-line" />
-            <span>DECISIONES CON CRITERIO TÉCNICO</span>
-          </div>
-        </section>
-
-        {/* NOSOTROS */}
-        <section className="intro section-wrap" id="nosotros">
-          <div className="section-kicker">01 / QUIÉNES SOMOS</div>
-
-          <div className="intro-content">
-            <h2>
-              Ingeniería con experiencia.<br />
-              <span>Ejecución con criterio.</span>
-            </h2>
-
-            <div className="intro-text">
-              <p>
-                Fundada en 2013, Proyectos Integrales es una empresa
-                mexicana especializada en ingeniería eléctrica,
-                construcción y mantenimiento.
-              </p>
-
-              <p>
-                Desarrollamos soluciones que abarcan desde la ingeniería
-                de diseño y el análisis técnico hasta el suministro,
-                instalación y ejecución de infraestructura eléctrica.
-              </p>
-
-              <p>
-                Nuestra experiencia incluye proyectos residenciales,
-                desarrollos turísticos, edificios de usos mixtos e
-                infraestructura eléctrica. Trabajamos con atención
-                personalizada y criterios técnicos respaldados por las
-                normas y estándares aplicables a cada proyecto.
-              </p>
-
-              <div className="signature">
-                No adivinamos. Calculamos.
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* SERVICIOS */}
-        <section className="services-section" id="servicios">
-          <div className="section-wrap">
-
-            <div className="section-heading">
-              <div>
-                <div className="section-kicker">02 / SERVICIOS</div>
-                <h2>
-                  Soluciones eléctricas.<br />
-                  <span>De la ingeniería a la ejecución.</span>
-                </h2>
-              </div>
-
-              <p>
-                Integramos conocimiento técnico, suministro de materiales
-                y equipos, construcción y mantenimiento para desarrollar
-                infraestructura eléctrica confiable y funcional.
-              </p>
-            </div>
-
-            <div className="service-grid">
-              {services.map(({
-                icon: Icon,
-                number,
-                title,
-                lead,
-                items
-              }) => (
-                <article className="service-card" key={number}>
-                  <div className="service-top">
-                    <span>{number}</span>
-                    <Icon size={25} strokeWidth={1.5} />
-                  </div>
-
-                  <h3>{title}</h3>
-
-                  <p className="service-lead">{lead}</p>
-
-                  <ul>
-                    {items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-
-                  <a
-                    href="#contacto"
-                    aria-label={`Consultar por ${title}`}
-                    className="card-arrow"
-                  >
-                    <ArrowUpRight size={19} />
-                  </a>
-                </article>
-              ))}
-            </div>
-
-            <div className="service-note">
-              <Zap size={17} />
-              Especial atención a infraestructura de media tensión,
-              subestaciones y transformadores.
-            </div>
-
-          </div>
-        </section>
-
-        {/* EXPERIENCIA */}
-        <section className="experience section-wrap" id="experiencia">
-
-          <div className="section-heading experience-heading">
-            <div>
-              <div className="section-kicker">03 / EXPERIENCIA</div>
-              <h2>
-                Experiencia que respalda<br />
-                <span>cada proyecto.</span>
-              </h2>
-            </div>
-
-            <p>
-              Desde 2013 hemos participado en proyectos de ingeniería
-              eléctrica para desarrollos residenciales, turísticos,
-              inmobiliarios y edificios de gran escala.
-            </p>
-          </div>
-
-          <div className="project-grid">
-            {projects.map((project) => (
-              <article className="project-card" key={project.number}>
-
-                <div className="project-number">
-                  {project.number}
-                  <span> / PROYECTO</span>
-                </div>
-
-                <h3>{project.name}</h3>
-
-                <div className="project-location">
-                  <MapPin size={13} />
-                  {project.location}
-                </div>
-
-                <p>{project.scope}</p>
-
-                {project.capacity && (
-                  <ul className="capacity-list">
-                    {project.capacity.map((item) => (
-                      <li key={item}>
-                        <CheckCircle2 size={13} />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-              </article>
-            ))}
-          </div>
-
-          <p className="experience-footnote">
-            Los alcances descritos corresponden a la participación de
-            Proyectos Integrales en cada proyecto. Las imágenes y
-            documentación técnica se comparten únicamente cuando existe
-            autorización para ello.
-          </p>
-        </section>
-
-        {/* SECTORES */}
-        <section className="sectors-section" id="sectores">
-          <div className="section-wrap">
-
-            <div className="section-heading">
-              <div>
-                <div className="section-kicker">
-                  04 / SECTORES QUE ATENDEMOS
-                </div>
-
-                <h2>
-                  Ingeniería para proyectos<br />
-                  <span>que exigen precisión.</span>
-                </h2>
-              </div>
-
-              <p>
-                Adaptamos cada solución a las características técnicas,
-                los requerimientos operativos y las necesidades de
-                infraestructura de cada sector.
-              </p>
-            </div>
-
-            <div className="sector-grid">
-              {sectors.map(({
-                icon: Icon,
-                number,
-                title,
-                description
-              }) => (
-                <article className="sector-card" key={number}>
-
-                  <div className="sector-top">
-                    <span>{number}</span>
-                    <Icon size={24} strokeWidth={1.5} />
-                  </div>
-
-                  <h3>{title}</h3>
-                  <p>{description}</p>
-
-                </article>
-              ))}
-            </div>
-
-          </div>
-        </section>
-
-        {/* FILOSOFÍA */}
-        <section className="method section-wrap" id="enfoque">
-
-          <div className="section-kicker">05 / NUESTRA FILOSOFÍA</div>
-
-          <div className="method-grid">
-            <div>
-              <h2>
-                No adivinamos.<br />
-                <span>Calculamos.</span>
-              </h2>
-
-              <p className="philosophy-copy">
-                Cada proyecto exige análisis, precisión y decisiones
-                técnicas fundamentadas. La ingeniería no admite
-                improvisaciones.
-              </p>
-            </div>
-
-            <div className="method-steps">
-
-              <div className="method-step">
-                <span>01</span>
-                <div>
-                  <h3>Entender</h3>
-                  <p>
-                    Definimos las necesidades, condiciones y alcance
-                    técnico del proyecto.
-                  </p>
-                </div>
-              </div>
-
-              <div className="method-step">
-                <span>02</span>
-                <div>
-                  <h3>Analizar y diseñar</h3>
-                  <p>
-                    Evaluamos alternativas y desarrollamos la solución
-                    de ingeniería correspondiente.
-                  </p>
-                </div>
-              </div>
-
-              <div className="method-step">
-                <span>03</span>
-                <div>
-                  <h3>Integrar</h3>
-                  <p>
-                    Documentamos criterios y coordinamos los aspectos
-                    técnicos necesarios para avanzar.
-                  </p>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* CONTACTO */}
-        <section className="cta-section" id="contacto">
-          <div className="cta-glow" />
-
-          <div className="section-wrap cta-content">
-            <div className="section-kicker">06 / CONTACTO</div>
-
-            <h2>
-              Hablemos de tu<br />
-              <span>próximo proyecto.</span>
-            </h2>
-
-            <p>
-              Cuéntanos qué estás desarrollando. Podemos conversar
-              sobre el alcance, los retos técnicos y las necesidades
-              de ingeniería eléctrica de tu proyecto.
-            </p>
-
-            <a
-              className="button button-primary"
-              href="mailto:proyectosintegralespv@gmail.com?subject=Solicitud%20de%20propuesta%20t%C3%A9cnica%20-%20Proyectos%20Integrales"
-            >
-              Solicitar propuesta técnica
-              <ArrowUpRight size={17} />
-            </a>
-
-            <div className="contact-details">
-
-              <a href="mailto:proyectosintegralespv@gmail.com">
-                <Mail size={17} />
-                proyectosintegralespv@gmail.com
-              </a>
-
-              <a href="tel:+523222456322">
-                <Phone size={17} />
-                +52 322 245 6322 · Celular
-              </a>
-
-              <a href="tel:+523222599687">
-                <Phone size={17} />
-                +52 322 259 9687 · Oficina
-              </a>
-
-              <span>
-                <MapPin size={17} />
-                Puerto Vallarta, Jalisco · Bahía de Banderas, Nayarit
-              </span>
-
-            </div>
-          </div>
-        </section>
-
-      </main>
-
-      {/* PIE DE PÁGINA */}
-      <footer className="footer">
-
-        <a className="brand footer-brand" href="#inicio">
-          <span className="brand-mark">PI<span>.</span></span>
-          <span className="brand-name">
-            PROYECTOS<br />INTEGRALES
-          </span>
-        </a>
-
-        <span className="footer-motto">
-          ENGINEERING · CONSTRUCTION · MAINTENANCE
-        </span>
-
-        <span className="copyright">
-          © {new Date().getFullYear()} Proyectos Integrales
-        </span>
-
-      </footer>
-    </div>
-  );
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root{font-family:'Manrope',Arial,sans-serif;color:#edf2f7;background:#0b1017;font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;--bg:#0b1017;--panel:#101821;--muted:#9ca9b8;--blue:#4aa8ff;--line:rgba(190,211,233,.14);--white:#f4f7fb}
+*{box-sizing:border-box;scroll-behavior:smooth}
+html{scroll-padding-top:90px}
+body{margin:0;min-width:320px;background:var(--bg)}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.site-shell{overflow:hidden}
+.topbar{height:88px;max-width:1320px;margin:auto;padding:0 34px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:relative;z-index:10;background:var(--bg)}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.brand-mark{font-size:30px;font-weight:800;letter-spacing:-3px;color:#f0f4f9;line-height:1}
+.brand-mark span{color:var(--blue)}
+.brand-name{font-size:10px;letter-spacing:2px;line-height:1.55;font-weight:800}
+.nav-links{display:flex;gap:25px;color:#b7c1cd;font-size:11px}
+.nav-links a:hover,.text-link:hover{color:var(--blue)}
+.nav-cta{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;border:1px solid rgba(74,168,255,.55);padding:12px 14px;border-radius:3px;white-space:nowrap}
+.nav-cta:hover{background:rgba(74,168,255,.1)}
+.menu-toggle{display:none;background:none;border:1px solid var(--line);color:var(--white);padding:9px;border-radius:3px}
+.brand-banner{max-width:1400px;margin:0 auto;background:#070c12;border-bottom:1px solid var(--line);line-height:0}
+.brand-banner img{display:block;width:100%;height:auto;max-height:350px;object-fit:cover}
+.hero{position:relative;max-width:1240px;min-height:600px;margin:auto;padding:85px 34px 70px;display:grid;grid-template-columns:1.08fr .92fr;align-items:center}
+.hero-grid{position:absolute;inset:0;pointer-events:none;opacity:.28;background-image:linear-gradient(rgba(100,154,207,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(100,154,207,.12) 1px,transparent 1px);background-size:58px 58px;mask-image:linear-gradient(90deg,black,transparent 90%)}
+.hero-copy{position:relative;z-index:1;padding-bottom:35px}
+.eyebrow,.section-kicker{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.8px;color:var(--blue);display:flex;align-items:center;gap:12px}
+.eyebrow-line{width:27px;height:1px;background:var(--blue)}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(43px,5.4vw,70px);line-height:1.08;letter-spacing:-3.6px;margin:27px 0 24px;font-weight:600;max-width:700px}
+h1 span,h2 span{color:var(--blue)}
+.hero-lead{max-width:540px;color:#aeb9c7;line-height:1.85;font-size:14px}
+.hero-actions{display:flex;align-items:center;gap:25px;margin-top:32px;flex-wrap:wrap}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:15px 18px;font-size:12px;font-weight:800;transition:.2s}
+.button-primary{background:var(--blue);color:#07111c}
+.button-primary:hover{background:#83c4ff;transform:translateY(-1px)}
+.text-link{font-size:12px;color:#c4cfda}
+.text-link span{color:var(--blue);margin-left:7px}
+.hero-note{margin-top:42px;color:#8190a1;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.3px;display:flex;gap:10px;align-items:center}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);box-shadow:0 0 12px var(--blue);flex-shrink:0}
+.hero-visual{height:390px;position:relative;display:flex;align-items:center;justify-content:center}
+.visual-orbit{position:absolute;border:1px solid rgba(74,168,255,.25);border-radius:50%;transform:rotate(-28deg)}
+.orbit-one{width:350px;height:245px;box-shadow:0 0 65px rgba(27,113,204,.08)}
+.orbit-two{width:280px;height:390px;transform:rotate(42deg);border-color:rgba(190,211,233,.14)}
+.visual-core{width:158px;height:158px;border-radius:50%;border:1px solid rgba(74,168,255,.7);display:flex;align-items:center;justify-content:center;color:var(--blue);background:radial-gradient(circle,rgba(74,168,255,.16),rgba(11,16,23,.2) 68%);box-shadow:0 0 70px rgba(74,168,255,.13),inset 0 0 30px rgba(74,168,255,.08)}
+.visual-core:before,.visual-core:after{content:"";position:absolute;border:1px solid rgba(74,168,255,.3);width:210px;height:210px;border-radius:50%}
+.visual-core:after{width:245px;height:245px;border-style:dashed;opacity:.55}
+.visual-label{position:absolute;display:flex;flex-direction:column;gap:7px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px}
+.visual-label span{color:var(--blue)}
+.visual-label b{font-weight:400;color:#c8d4e0}
+.label-top{top:25px;right:0}.label-bottom{bottom:25px;left:0}
+.visual-coordinate{position:absolute;bottom:90px;right:5px;font-family:'DM Mono',monospace;font-size:9px;line-height:1.8;color:#637487;text-align:right}
+.hero-footer{position:absolute;bottom:0;left:34px;right:34px;display:flex;align-items:center;gap:18px;color:#637487;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px}
+.footer-line{height:1px;background:var(--line);flex:1}
+.section-wrap{max-width:1172px;margin:0 auto;padding-left:34px;padding-right:34px}
+.intro{padding-top:110px;padding-bottom:115px}
+.intro-content{display:grid;grid-template-columns:1fr 1fr;gap:70px;margin-top:28px}
+h2{font-size:clamp(34px,4vw,52px);letter-spacing:-2.2px;line-height:1.12;font-weight:600;margin-bottom:0}
+.intro-text{padding-top:5px;max-width:540px}
+.intro-text p,.section-heading>p{font-size:13px;line-height:1.9;color:#aab6c4}
+.signature{margin-top:25px;color:var(--blue);font-size:14px;font-weight:800;letter-spacing:.2px}
+.services-section,.sectors-section{background:#0e151e;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:100px 0 105px}
+.section-heading{display:flex;align-items:end;justify-content:space-between;gap:35px;margin-bottom:42px}
+.section-heading h2{margin-top:24px}
+.section-heading>p{max-width:340px;margin-bottom:4px}
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.service-card{position:relative;min-height:440px;padding:25px 23px 55px;background:linear-gradient(145deg,rgba(28,41,55,.65),rgba(12,19,28,.85));border:1px solid var(--line);transition:.25s}
+.service-card:hover,.sector-card:hover,.project-card:hover{border-color:rgba(74,168,255,.55);transform:translateY(-3px)}
+.service-top,.sector-top{display:flex;justify-content:space-between;align-items:center;color:var(--blue);margin-bottom:35px}
+.service-top span,.sector-top span{font-family:'DM Mono',monospace;font-size:10px;color:#72849a}
+.service-card h3{font-size:19px;line-height:1.4;font-weight:600;margin-bottom:12px}
+.service-lead{font-size:12px;line-height:1.8;color:#c1ccd8;margin-bottom:18px}
+.service-card ul{padding-left:17px;margin:0;color:#99a8b8;font-size:11px;line-height:1.9}
+.service-card li{padding-left:2px;margin-bottom:5px}
+.card-arrow{position:absolute;right:20px;bottom:18px;color:var(--blue)}
+.service-note{display:flex;align-items:center;gap:11px;color:#aab8c7;font-size:12px;margin-top:28px;padding:16px 18px;border-left:2px solid var(--blue);background:rgba(74,168,255,.055)}
+.service-note svg{color:var(--blue);flex-shrink:0}
+.experience{padding-top:110px;padding-bottom:115px}
+.experience-heading{margin-bottom:42px}
+.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.project-card{padding:24px 22px 25px;min-height:255px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(22,33,45,.72),rgba(12,18,26,.9));transition:.25s}
+.project-number{font-family:'DM Mono',monospace;font-size:10px;color:var(--blue);letter-spacing:1px;margin-bottom:25px}
+.project-number span{color:#697b8e}
+.project-card h3{font-size:16px;line-height:1.45;margin-bottom:10px}
+.project-location{display:flex;align-items:center;gap:6px;color:#8293a5;font-size:10px;margin-bottom:17px}
+.project-location svg{color:var(--blue);flex-shrink:0}
+.project-card>p{font-size:11px;line-height:1.8;color:#aab6c4;margin-bottom:13px}
+.capacity-list{list-style:none;padding:0;margin:0;display:grid;gap:7px}
+.capacity-list li{display:flex;align-items:center;gap:7px;color:#c2ccd7;font-size:10px}
+.capacity-list svg{color:var(--blue);flex-shrink:0}
+.experience-footnote{font-size:10px;line-height:1.8;color:#718196;margin:23px 0 0;max-width:850px}
+.sector-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.sector-card{padding:24px 20px 26px;min-height:235px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(28,41,55,.55),rgba(12,19,28,.8));transition:.25s}
+.sector-top{margin-bottom:35px}
+.sector-card h3{font-size:15px;line-height:1.5;margin-bottom:12px}
+.sector-card p{font-size:11px;line-height:1.8;color:#99a8b8;margin:0}
+.method{padding-top:110px;padding-bottom:115px}
+.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;margin-top:30px}
+.philosophy-copy{font-size:13px;line-height:1.9;color:#aab6c4;max-width:390px;margin-top:23px}
+.method-steps{border-top:1px solid var(--line)}
+.method-step{display:grid;grid-template-columns:48px 1fr;gap:16px;padding:24px 0;border-bottom:1px solid var(--line)}
+.method-step>span{font-family:'DM Mono',monospace;font-size:11px;color:var(--blue);padding-top:3px}
+.method-step h3{font-size:15px;margin-bottom:8px;font-weight:600}
+.method-step p{font-size:12px;line-height:1.8;color:#9eacbb;margin:0;max-width:440px}
+.cta-section{position:relative;background:#101b27;border-top:1px solid var(--line);overflow:hidden}
+.cta-glow{position:absolute;width:550px;height:550px;border-radius:50%;right:-120px;top:-230px;background:radial-gradient(circle,rgba(43,137,225,.17),transparent 68%);pointer-events:none}
+.cta-content{position:relative;padding-top:100px;padding-bottom:85px}
+.cta-content h2{font-size:clamp(38px,5vw,62px);margin-top:24px}
+.cta-content h2 span{color:var(--blue)}
+.cta-content>p{color:#aab6c4;font-size:14px;line-height:1.8;max-width:500px;margin:22px 0 26px}
+.contact-details{display:flex;flex-wrap:wrap;gap:18px 30px;margin-top:48px;padding-top:24px;border-top:1px solid var(--line);color:#aeb9c7;font-size:11px}
+.contact-details a,.contact-details span{display:flex;align-items:center;gap:9px}
+.contact-details a:hover{color:var(--blue)}
+.contact-details svg{color:var(--blue);flex-shrink:0}
+.footer{max-width:1240px;margin:auto;min-height:100px;padding:24px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.footer-brand .brand-mark{font-size:25px}.footer-brand .brand-name{font-size:8px}
+.footer-motto,.copyright{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:#718196}
+@media(max-width:1000px){
+  .nav-links{gap:14px}.nav-links a{font-size:10px}.nav-cta{font-size:10px;padding:10px}
+  .hero{grid-template-columns:1fr .75fr}.service-card{padding-left:18px;padding-right:18px}.sector-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+  .topbar{height:74px;padding:0 20px}.menu-toggle{display:inline-flex;align-items:center;justify-content:center;margin-left:auto}
+  .nav-cta{display:none}.nav-links{display:none;position:absolute;top:73px;left:0;right:0;padding:15px 22px 20px;background:#0d141d;border-bottom:1px solid var(--line);flex-direction:column;gap:0}
+  .nav-links.is-open{display:flex}.nav-links a{padding:13px 0;font-size:12px;border-bottom:1px solid rgba(190,211,233,.08)}
+  .brand-banner img{min-height:110px;object-fit:cover}
+  .hero{display:block;padding:65px 22px 65px;min-height:auto}.hero-copy{padding-bottom:0}
+  h1{font-size:clamp(43px,11vw,58px);letter-spacing:-2.8px}
+  .hero-lead{font-size:13px}.hero-visual{height:290px;margin-top:15px}
+  .visual-orbit.orbit-one{width:250px;height:180px}.orbit-two{width:200px;height:280px}
+  .visual-core{width:120px;height:120px}.visual-core:before{width:165px;height:165px}.visual-core:after{width:190px;height:190px}
+  .label-top{right:5px;top:10px}.label-bottom{left:0;bottom:10px}.visual-coordinate{bottom:65px}
+  .hero-footer{left:22px;right:22px;font-size:7px;gap:10px}
+  .section-wrap{padding-left:22px;padding-right:22px}
+  .intro{padding-top:80px;padding-bottom:85px}.intro-content,.method-grid{grid-template-columns:1fr;gap:24px}
+  .intro-content{margin-top:22px}.services-section,.sectors-section{padding:80px 0}
+  .section-heading{display:block}.section-heading>p{margin-top:20px}
+  .service-grid,.project-grid{grid-template-columns:1fr}.service-card{min-height:0;padding-bottom:55px}
+  .service-top{margin-bottom:27px}.experience{padding-top:80px;padding-bottom:85px}
+  .project-card{min-height:0}.sector-grid{grid-template-columns:1fr}.sector-card{min-height:0}
+  .method{padding-top:80px;padding-bottom:85px}.cta-content{padding-top:80px;padding-bottom:60px}
+  .contact-details{flex-direction:column;gap:16px}.footer{padding:25px 22px;flex-wrap:wrap}
+  .footer-motto{order:3;width:100%}.copyright{font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+
+
+
+/* =========================================
+   PROYECTOS INTEGRALES
+   VISUAL EVOLUTION 2.0
+========================================= */
+
+:root {
+  --blue-bright: #79c2ff;
 }
 
-createRoot(document.getElementById("root")).render(<App />);
+/* NAVEGACIÓN */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8, 13, 20, .88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(142, 180, 217, .17);
+}
+
+.brand-mark {
+  transition: transform .35s ease;
+}
+
+.brand:hover .brand-mark {
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* HERO */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at 76% 46%,
+      rgba(29, 112, 191, .17),
+      transparent 43%
+    );
+}
+
+.hero-grid {
+  background-size: 52px 52px;
+  animation: grid-drift 32s linear infinite;
+}
+
+@keyframes grid-drift {
+  to {
+    background-position: 52px 52px;
+  }
+}
+
+/* TEXTO */
+
+h1 span {
+  background: linear-gradient(
+    100deg,
+    #dceeff,
+    #65b8ff 48%,
+    #2e83d1
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* GRÁFICO CENTRAL */
+
+.visual-core {
+  position: relative;
+  z-index: 2;
+  animation: core-glow 4s ease-in-out infinite;
+}
+
+@keyframes core-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 48px rgba(74,168,255,.10),
+      inset 0 0 25px rgba(74,168,255,.07);
+  }
+
+  50% {
+    box-shadow:
+      0 0 85px rgba(74,168,255,.25),
+      inset 0 0 35px rgba(74,168,255,.13);
+  }
+}
+
+.visual-crosshair {
+  position: absolute;
+  width: 330px;
+  height: 330px;
+  border: 1px dashed rgba(177,207,235,.16);
+  border-radius: 50%;
+  animation: crosshair-spin 48s linear infinite;
+}
+
+@keyframes crosshair-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.visual-pulse {
+  position: absolute;
+  width: 270px;
+  height: 270px;
+  border: 1px solid rgba(74,168,255,.34);
+  border-radius: 50%;
+  animation: pulse-ring 4s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(.72);
+    opacity: .65;
+  }
+
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+/* ETIQUETAS TÉCNICAS */
+
+.visual-chip {
+  position: absolute;
+  z-index: 3;
+  padding: 10px 12px;
+  border: 1px solid rgba(106,183,248,.35);
+  background: rgba(8,16,26,.78);
+  backdrop-filter: blur(8px);
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: .7px;
+  color: #dceafa;
+  box-shadow: 0 10px 35px rgba(0,0,0,.2);
+}
+
+.visual-chip small {
+  display: block;
+  margin-top: 5px;
+  font-size: 8px;
+  color: #7fa6c9;
+}
+
+.chip-left {
+  left: 2px;
+  top: 105px;
+}
+
+.chip-right {
+  right: -8px;
+  bottom: 105px;
+}
+
+/* ÓRBITAS */
+
+.visual-orbit {
+  animation: orbit-float 12s ease-in-out infinite;
+}
+
+.orbit-two {
+  animation-duration: 16s;
+  animation-direction: reverse;
+}
+
+@keyframes orbit-float {
+  0%, 100% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+
+  50% {
+    translate: 0 -9px;
+    rotate: 5deg;
+  }
+}
+
+/* BOTONES */
+
+.button-primary {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(42,139,222,.16);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.button-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 34px rgba(42,139,222,.28);
+}
+
+.button-primary::after {
+  content: "";
+  position: absolute;
+  top: -80%;
+  left: -35%;
+  width: 25%;
+  height: 260%;
+  transform: rotate(24deg);
+  background: rgba(255,255,255,.28);
+  transition: left .55s ease;
+}
+
+.button-primary:hover::after {
+  left: 125%;
+}
+
+/* TARJETAS */
+
+.service-card,
+.project-card,
+.sector-card {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform .35s ease,
+    border-color .35s ease,
+    box-shadow .35s ease;
+}
+
+.service-card:hover,
+.project-card:hover,
+.sector-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 50px rgba(0,0,0,.22);
+}
+
+.service-card::before,
+.project-card::before,
+.sector-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg,#4aa8ff,transparent);
+  transition: width .45s ease;
+}
+
+.service-card:hover::before,
+.project-card:hover::before,
+.sector-card:hover::before {
+  width: 100%;
+}
+
+/* FILOSOFÍA */
+
+.method-step {
+  transition: padding-left .3s ease;
+}
+
+.method-step:hover {
+  padding-left: 10px;
+}
+
+/* CONTACTO */
+
+.cta-section {
+  background:
+    radial-gradient(
+      ellipse at 78% 42%,
+      rgba(37,117,190,.13),
+      transparent 42%
+    ),
+    #101b27;
+}
+
+/* ENTRADAS AL DESPLAZARSE */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .7s ease,
+    transform .7s cubic-bezier(.2,.7,.2,1);
+  transition-delay: var(--reveal-delay,0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* MÓVILES */
+
+@media (max-width: 760px) {
+  .visual-crosshair {
+    width: 250px;
+    height: 250px;
+  }
+
+  .visual-pulse {
+    width: 210px;
+    height: 210px;
+  }
+
+  .visual-chip {
+    font-size: 8px;
+    padding: 8px;
+  }
+
+  .chip-left {
+    left: 0;
+    top: 75px;
+  }
+
+  .chip-right {
+    right: 0;
+    bottom: 75px;
+  }
+}
+
+/* ACCESIBILIDAD */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
