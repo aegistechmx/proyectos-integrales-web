@@ -4,7 +4,7 @@ import {
   ArrowUpRight, Zap, DraftingCompass, Cable, ShieldCheck,
   Building2, Hotel, Factory, HardHat,
   Mail, Phone, MapPin, Menu, X, CheckCircle2, Cpu, Activity,
-  Globe, Award, Sparkles, Layers, ChevronDown
+  Globe, Award, Sparkles, Layers, ChevronDown, ShieldAlert, FileText
 } from "lucide-react";
 import "./styles.css";
 
@@ -159,7 +159,8 @@ function App() {
       ".section-heading",
       ".interactive-card",
       ".method-step",
-      ".cta-content"
+      ".cta-content",
+      ".data-card"
     ];
 
     const elements = document.querySelectorAll(selectors.join(","));
@@ -253,7 +254,6 @@ function App() {
 
         {/* HERO */}
         <section className="hero" id="inicio">
-
           <div className="hero-grid" />
 
           <div className="hero-copy">
@@ -291,14 +291,12 @@ function App() {
             </div>
           </div>
 
-          {/* GRÁFICO TÉCNICO ANIMADO */}
           <div
             className="hero-visual"
             aria-label="Gráfico técnico de ingeniería eléctrica"
           >
             <div className="visual-orbit orbit-one" />
             <div className="visual-orbit orbit-two" />
-
             <div className="visual-crosshair" />
 
             <div className="visual-core">
@@ -341,45 +339,60 @@ function App() {
           </div>
         </section>
 
-        {/* NOSOTROS */}
+        <div className="energy-divider" />
+
+        {/* NOSOTROS (CON DATA CARDS ESTILO CUADRO DE MANDO) */}
         <section className="intro section-wrap" id="nosotros">
           <div className="section-kicker">
             <Layers size={13} /> 01 / QUIÉNES SOMOS
           </div>
 
           <div className="intro-content">
-            <h2>
-              Ingeniería con experiencia.<br />
-              <span>Ejecución con criterio.</span>
-            </h2>
+            <div>
+              <h2>
+                Ingeniería con experiencia.<br />
+                <span>Ejecución con criterio.</span>
+              </h2>
 
-            <div className="intro-text">
-              <p>
-                Fundada en 2013, Proyectos Integrales es una empresa
-                mexicana especializada en ingeniería eléctrica,
-                construcción y mantenimiento.
-              </p>
-
-              <p>
-                Desarrollamos soluciones que abarcan desde la ingeniería
-                de diseño y el análisis técnico hasta el suministro,
-                instalación y ejecución de infraestructura eléctrica.
-              </p>
-
-              <p>
-                Nuestra experiencia incluye proyectos residenciales,
-                desarrollos turísticos, edificios de usos mixtos e
-                infraestructura eléctrica. Trabajamos con atención
-                personalizada y criterios técnicos respaldados por las
-                normas y estándares aplicables a cada proyecto.
-              </p>
-
-              <div className="signature">
-                <Sparkles size={16} /> No adivinamos. Calculamos.
+              <div className="intro-text">
+                <p>
+                  Fundada en 2013[cite: 4], Proyectos Integrales es una empresa
+                  mexicana especializada en ingeniería eléctrica,
+                  construcción y mantenimiento[cite: 5].
+                </p>
+                <p>
+                  Desarrollamos soluciones que abarcan desde el diseño técnico
+                  hasta la ejecución de infraestructura bajo estrictas normas
+                  nacionales e internacionales[cite: 4, 5].
+                </p>
+                <div className="signature">
+                  <Sparkles size={16} /> No adivinamos. Calculamos.
+                </div>
               </div>
             </div>
+
+            {/* TARJETAS DATA CARD TÉCNICAS */}
+            <div className="data-cards-grid">
+              <div className="data-card">
+                <span className="data-card-label">EXPERIENCIA</span>
+                <span className="data-card-value">Desde 2013[cite: 4] <br/><small style={{color: '#999'}}>Trayectoria firme</small></span>
+              </div>
+
+              <div className="data-card">
+                <span className="data-card-label">NORMATIVA</span>
+                <span className="data-card-value">NOM-001-SEDE[cite: 4]<br/><small style={{color: '#999'}}>Estándar oficial</small></span>
+              </div>
+
+              <div className="data-card">
+                <span className="data-card-label">ESPECIALIDAD</span>
+                <span className="data-card-value">Media y Baja Tensión[cite: 5]<br/><small style={{color: '#999'}}>Infraestructura</small></span>
+              </div>
+            </div>
+
           </div>
         </section>
+
+        <div className="energy-divider" />
 
         {/* SERVICIOS */}
         <section className="services-section" id="servicios">
@@ -399,7 +412,7 @@ function App() {
               <p>
                 Integramos conocimiento técnico, suministro de materiales
                 y equipos, construcción y mantenimiento para desarrollar
-                infraestructura eléctrica confiable y funcional.
+                infraestructura eléctrica confiable y funcional[cite: 5].
               </p>
             </div>
 
@@ -418,7 +431,6 @@ function App() {
                   </div>
 
                   <h3>{title}</h3>
-
                   <p className="service-lead">{lead}</p>
 
                   <ul>
@@ -427,11 +439,7 @@ function App() {
                     ))}
                   </ul>
 
-                  <a
-                    href="#contacto"
-                    aria-label={`Consultar por ${title}`}
-                    className="card-arrow"
-                  >
+                  <a href="#contacto" aria-label={`Consultar por ${title}`} className="card-arrow">
                     <ArrowUpRight size={19} />
                   </a>
                 </article>
@@ -441,11 +449,13 @@ function App() {
             <div className="service-note">
               <Zap size={17} className="icon-pulse" />
               Especial atención a infraestructura de media tensión,
-              subestaciones y transformadores.
+              subestaciones y transformadores[cite: 5].
             </div>
 
           </div>
         </section>
+
+        <div className="energy-divider" />
 
         {/* EXPERIENCIA CON FILTROS */}
         <section className="experience section-wrap" id="experiencia">
@@ -462,29 +472,18 @@ function App() {
             </div>
 
             <p>
-              Desde 2013 hemos participado en proyectos de ingeniería
-              eléctrica para desarrollos residenciales, turísticos,
-              inmobiliarios y edificios de gran escala.
+              Participación en desarrollos de ingeniería eléctrica de alta escala[cite: 6, 8, 9, 10].
             </p>
           </div>
 
           <div className="filter-tabs">
-            <button 
-              className={`filter-btn ${activeFilter === "todos" ? "active" : ""}`} 
-              onClick={() => setActiveFilter("todos")}
-            >
+            <button className={`filter-btn ${activeFilter === "todos" ? "active" : ""}`} onClick={() => setActiveFilter("todos")}>
               TODOS LOS PROYECTOS
             </button>
-            <button 
-              className={`filter-btn ${activeFilter === "residencial" ? "active" : ""}`} 
-              onClick={() => setActiveFilter("residencial")}
-            >
+            <button className={`filter-btn ${activeFilter === "residencial" ? "active" : ""}`} onClick={() => setActiveFilter("residencial")}>
               RESIDENCIAL DE LUJO
             </button>
-            <button 
-              className={`filter-btn ${activeFilter === "comercial" ? "active" : ""}`} 
-              onClick={() => setActiveFilter("comercial")}
-            >
+            <button className={`filter-btn ${activeFilter === "comercial" ? "active" : ""}`} onClick={() => setActiveFilter("comercial")}>
               COMERCIAL / MIXTO
             </button>
           </div>
@@ -492,10 +491,8 @@ function App() {
           <div className="project-grid">
             {filteredProjects.map((project) => (
               <article className="project-card interactive-card" key={project.number}>
-
                 <div className="project-number">
-                  {project.number}
-                  <span> / PROYECTO</span>
+                  {project.number}<span> / PROYECTO</span>
                 </div>
 
                 <h3>{project.name}</h3>
@@ -517,23 +514,19 @@ function App() {
                     ))}
                   </ul>
                 )}
-
               </article>
             ))}
           </div>
 
           <p className="experience-footnote">
-            Los alcances descritos corresponden a la participación de
-            Proyectos Integrales en cada proyecto. Las imágenes y
-            documentación técnica se comparten únicamente cuando existe
-            autorización para ello.
+            Los alcances descritos corresponden a la participación de Proyectos Integrales en cada contrato[cite: 6, 8, 9, 10, 11, 12].
           </p>
         </section>
 
         {/* BARRA DE MARCAS HOMOLOGADAS */}
         <section className="brands-section">
           <div className="section-wrap">
-            <div style={{ textAlign: "center", marginBottom: "30px" }}>
+            <div style={{ textAlign: "center", marginBottom: "25px" }}>
               <span className="section-kicker" style={{ justifyContent: "center" }}>ESTÁNDARES Y FABRICANTES HOMOLOGADOS</span>
             </div>
             <div className="brands-grid">
@@ -546,6 +539,8 @@ function App() {
           </div>
         </section>
 
+        <div className="energy-divider" />
+
         {/* SECTORES */}
         <section className="sectors-section" id="sectores">
           <div className="section-wrap">
@@ -555,37 +550,25 @@ function App() {
                 <div className="section-kicker">
                   <Globe size={13} /> 04 / SECTORES QUE ATENDEMOS
                 </div>
-
                 <h2>
                   Ingeniería para proyectos<br />
                   <span>que exigen precisión.</span>
                 </h2>
               </div>
-
               <p>
-                Adaptamos cada solución a las características técnicas,
-                los requerimientos operativos y las necesidades de
-                infraestructura de cada sector.
+                Adaptamos cada solución a los requerimientos operativos y de infraestructura de cada sector.
               </p>
             </div>
 
             <div className="sector-grid">
-              {sectors.map(({
-                icon: Icon,
-                number,
-                title,
-                description
-              }) => (
+              {sectors.map(({ icon: Icon, number, title, description }) => (
                 <article className="sector-card interactive-card" key={number}>
-
                   <div className="sector-top">
                     <span>{number}</span>
                     <Icon size={24} strokeWidth={1.5} className="card-icon" />
                   </div>
-
                   <h3>{title}</h3>
                   <p>{description}</p>
-
                 </article>
               ))}
             </div>
@@ -593,9 +576,10 @@ function App() {
           </div>
         </section>
 
+        <div className="energy-divider" />
+
         {/* FILOSOFÍA */}
         <section className="method section-wrap" id="enfoque">
-
           <div className="section-kicker">
             <Activity size={13} /> 05 / NUESTRA FILOSOFÍA
           </div>
@@ -606,49 +590,33 @@ function App() {
                 No adivinamos.<br />
                 <span>Calculamos.</span>
               </h2>
-
               <p className="philosophy-copy">
-                Cada proyecto exige análisis, precisión y decisiones
-                técnicas fundamentadas. La ingeniería no admite
-                improvisaciones.
+                Cada proyecto exige análisis, precisión y decisiones técnicas fundamentadas.
               </p>
             </div>
 
             <div className="method-steps">
-
               <div className="method-step">
                 <span>01</span>
                 <div>
                   <h3>Entender</h3>
-                  <p>
-                    Definimos las necesidades, condiciones y alcance
-                    técnico del proyecto.
-                  </p>
+                  <p>Definimos las necesidades, condiciones y alcance técnico del proyecto[cite: 4].</p>
                 </div>
               </div>
-
               <div className="method-step">
                 <span>02</span>
                 <div>
                   <h3>Analizar y diseñar</h3>
-                  <p>
-                    Evaluamos alternativas y desarrollamos la solución
-                    de ingeniería correspondiente.
-                  </p>
+                  <p>Evaluamos alternativas y desarrollamos la solución de ingeniería correspondiente[cite: 5].</p>
                 </div>
               </div>
-
               <div className="method-step">
                 <span>03</span>
                 <div>
                   <h3>Integrar</h3>
-                  <p>
-                    Documentamos criterios y coordinamos los aspectos
-                    técnicos necesarios para avanzar.
-                  </p>
+                  <p>Documentamos criterios y coordinamos los aspectos técnicos necesarios para avanzar[cite: 4, 5].</p>
                 </div>
               </div>
-
             </div>
           </div>
         </section>
@@ -668,9 +636,7 @@ function App() {
             </h2>
 
             <p>
-              Cuéntanos qué estás desarrollando. Podemos conversar
-              sobre el alcance, los retos técnicos y las necesidades
-              de ingeniería eléctrica de tu proyecto.
+              Cuéntanos qué estás desarrollando. Podemos conversar sobre el alcance y los retos técnicos de tu obra.
             </p>
 
             <a
@@ -682,27 +648,22 @@ function App() {
             </a>
 
             <div className="contact-details">
-
               <a href="mailto:proyectosintegralespv@gmail.com">
                 <Mail size={17} />
-                proyectosintegralespv@gmail.com
+                proyectosintegralespv@gmail.com[cite: 12]
               </a>
-
               <a href="tel:+523222456322">
                 <Phone size={17} />
-                +52 322 245 6322 · Celular
+                +52 322 245 6322 · Celular[cite: 12]
               </a>
-
               <a href="tel:+523222599687">
                 <Phone size={17} />
-                +52 322 259 9687 · Oficina
+                +52 322 259 9687 · Oficina[cite: 12]
               </a>
-
               <span>
                 <MapPin size={17} />
-                Puerto Vallarta, Jalisco · Bahía de Banderas, Nayarit
+                Puerto Vallarta, Jalisco · Bahía de Banderas, Nayarit[cite: 12]
               </span>
-
             </div>
           </div>
         </section>
@@ -711,7 +672,6 @@ function App() {
 
       {/* PIE DE PÁGINA */}
       <footer className="footer">
-
         <a className="brand footer-brand" href="#inicio">
           <span className="brand-mark">PI<span>.</span></span>
           <span className="brand-name">
@@ -726,7 +686,6 @@ function App() {
         <span className="copyright">
           © {new Date().getFullYear()} Proyectos Integrales
         </span>
-
       </footer>
     </div>
   );
