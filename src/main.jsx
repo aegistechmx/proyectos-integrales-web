@@ -3,7 +3,8 @@ import { createRoot } from "react-dom/client";
 import {
   ArrowUpRight, Zap, DraftingCompass, Cable, ShieldCheck,
   ClipboardCheck, Building2, Hotel, Factory, HardHat,
-  Mail, Phone, MapPin, Menu, X, CheckCircle2
+  Mail, Phone, MapPin, Menu, X, CheckCircle2, Cpu, Activity,
+  Globe, Award, Sparkles, Layers, ChevronDown
 } from "lucide-react";
 import "./styles.css";
 
@@ -141,7 +142,6 @@ function App() {
 
   const closeMenu = () => setMenuOpen(false);
 
-  // Animaciones de entrada al desplazarse por la página
   useEffect(() => {
     const selectors = [
       ".intro",
@@ -229,14 +229,14 @@ function App() {
           <a href="#contacto" onClick={closeMenu}>Contacto</a>
         </nav>
 
-        <a className="nav-cta" href="#contacto">
-          Hablemos de tu proyecto <ArrowUpRight size={16} />
+        <a className="nav-cta button-glow" href="#contacto">
+          <Sparkles size={14} className="icon-pulse" /> Hablemos de tu proyecto <ArrowUpRight size={16} />
         </a>
       </header>
 
       <main>
 
-        {/* IDENTIDAD VISUAL */}
+        {/* BANNER VISUAL */}
         <section
           className="brand-banner"
           aria-label="Identidad visual de Proyectos Integrales"
@@ -255,7 +255,7 @@ function App() {
           <div className="hero-copy">
             <div className="eyebrow">
               <span className="eyebrow-line" />
-              INGENIERÍA · CONSTRUCCIÓN · MANTENIMIENTO
+              <Cpu size={14} className="icon-spin-slow" /> INGENIERÍA · CONSTRUCCIÓN · MANTENIMIENTO
             </div>
 
             <h1>
@@ -271,23 +271,23 @@ function App() {
             </p>
 
             <div className="hero-actions">
-              <a className="button button-primary" href="#contacto">
+              <a className="button button-primary button-glow" href="#contacto">
                 Solicitar propuesta técnica
                 <ArrowUpRight size={17} />
               </a>
 
               <a className="text-link" href="#experiencia">
-                Conocer nuestra experiencia <span>↓</span>
+                Conocer nuestra experiencia <ChevronDown size={14} className="icon-bounce" />
               </a>
             </div>
 
             <div className="hero-note">
               <span className="status-dot" />
-              Puerto Vallarta, Jalisco · Bahía de Banderas, Nayarit
+              <Globe size={13} /> Puerto Vallarta, Jalisco · Bahía de Banderas, Nayarit
             </div>
           </div>
 
-          {/* GRÁFICO TÉCNICO ANIMADO */}
+          {/* GRÁFICO TÉCNICO INTERACTIVO / ANIMADO */}
           <div
             className="hero-visual"
             aria-label="Gráfico técnico de ingeniería eléctrica"
@@ -298,18 +298,18 @@ function App() {
             <div className="visual-crosshair" />
 
             <div className="visual-core">
-              <Zap size={54} strokeWidth={1.2} />
+              <Zap size={54} strokeWidth={1.2} className="icon-pulse-fast" />
             </div>
 
             <div className="visual-pulse" />
 
             <div className="visual-chip chip-left">
-              MT / BT
+              <Activity size={12} className="icon-pulse" /> MT / BT
               <small>INFRAESTRUCTURA</small>
             </div>
 
             <div className="visual-chip chip-right">
-              PI / ENGINEERING
+              <Award size={12} /> PI / ENGINEERING
               <small>PRECISIÓN TÉCNICA</small>
             </div>
 
@@ -339,7 +339,9 @@ function App() {
 
         {/* NOSOTROS */}
         <section className="intro section-wrap" id="nosotros">
-          <div className="section-kicker">01 / QUIÉNES SOMOS</div>
+          <div className="section-kicker">
+            <Layers size={13} /> 01 / QUIÉNES SOMOS
+          </div>
 
           <div className="intro-content">
             <h2>
@@ -369,7 +371,7 @@ function App() {
               </p>
 
               <div className="signature">
-                No adivinamos. Calculamos.
+                <Sparkles size={16} /> No adivinamos. Calculamos.
               </div>
             </div>
           </div>
@@ -381,7 +383,9 @@ function App() {
 
             <div className="section-heading">
               <div>
-                <div className="section-kicker">02 / SERVICIOS</div>
+                <div className="section-kicker">
+                  <Cpu size={13} /> 02 / SERVICIOS
+                </div>
                 <h2>
                   Soluciones eléctricas.<br />
                   <span>De la ingeniería a la ejecución.</span>
@@ -403,10 +407,10 @@ function App() {
                 lead,
                 items
               }) => (
-                <article className="service-card" key={number}>
+                <article className="service-card interactive-card" key={number}>
                   <div className="service-top">
                     <span>{number}</span>
-                    <Icon size={25} strokeWidth={1.5} />
+                    <Icon size={26} strokeWidth={1.5} className="card-icon" />
                   </div>
 
                   <h3>{title}</h3>
@@ -431,7 +435,7 @@ function App() {
             </div>
 
             <div className="service-note">
-              <Zap size={17} />
+              <Zap size={17} className="icon-pulse" />
               Especial atención a infraestructura de media tensión,
               subestaciones y transformadores.
             </div>
@@ -444,7 +448,9 @@ function App() {
 
           <div className="section-heading experience-heading">
             <div>
-              <div className="section-kicker">03 / EXPERIENCIA</div>
+              <div className="section-kicker">
+                <Award size={13} /> 03 / EXPERIENCIA
+              </div>
               <h2>
                 Experiencia que respalda<br />
                 <span>cada proyecto.</span>
@@ -460,7 +466,7 @@ function App() {
 
           <div className="project-grid">
             {projects.map((project) => (
-              <article className="project-card" key={project.number}>
+              <article className="project-card interactive-card" key={project.number}>
 
                 <div className="project-number">
                   {project.number}
@@ -506,7 +512,7 @@ function App() {
             <div className="section-heading">
               <div>
                 <div className="section-kicker">
-                  04 / SECTORES QUE ATENDEMOS
+                  <Globe size={13} /> 04 / SECTORES QUE ATENDEMOS
                 </div>
 
                 <h2>
@@ -529,11 +535,11 @@ function App() {
                 title,
                 description
               }) => (
-                <article className="sector-card" key={number}>
+                <article className="sector-card interactive-card" key={number}>
 
                   <div className="sector-top">
                     <span>{number}</span>
-                    <Icon size={24} strokeWidth={1.5} />
+                    <Icon size={24} strokeWidth={1.5} className="card-icon" />
                   </div>
 
                   <h3>{title}</h3>
@@ -549,7 +555,9 @@ function App() {
         {/* FILOSOFÍA */}
         <section className="method section-wrap" id="enfoque">
 
-          <div className="section-kicker">05 / NUESTRA FILOSOFÍA</div>
+          <div className="section-kicker">
+            <Activity size={13} /> 05 / NUESTRA FILOSOFÍA
+          </div>
 
           <div className="method-grid">
             <div>
@@ -609,7 +617,9 @@ function App() {
           <div className="cta-glow" />
 
           <div className="section-wrap cta-content">
-            <div className="section-kicker">06 / CONTACTO</div>
+            <div className="section-kicker">
+              <Mail size={13} /> 06 / CONTACTO
+            </div>
 
             <h2>
               Hablemos de tu<br />
@@ -623,7 +633,7 @@ function App() {
             </p>
 
             <a
-              className="button button-primary"
+              className="button button-primary button-glow"
               href="mailto:proyectosintegralespv@gmail.com?subject=Solicitud%20de%20propuesta%20t%C3%A9cnica%20-%20Proyectos%20Integrales"
             >
               Solicitar propuesta técnica
