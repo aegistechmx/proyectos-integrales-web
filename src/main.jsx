@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ArrowUpRight, Zap, DraftingCompass, Cable, ShieldCheck,
-  ClipboardCheck, Building2, Hotel, Factory, HardHat,
+  Building2, Hotel, Factory, HardHat,
   Mail, Phone, MapPin, Menu, X, CheckCircle2, Cpu, Activity,
   Globe, Award, Sparkles, Layers, ChevronDown
 } from "lucide-react";
@@ -57,12 +57,14 @@ const projects = [
     number: "01",
     name: "One&Only Mandarina Private Homes",
     location: "El Monteón · Riviera Nayarit",
+    category: "residencial",
     scope: "Ingeniería de diseño eléctrico en media y baja tensión para villas residenciales."
   },
   {
     number: "02",
     name: "El Banco Estate · Lotes 01 y 02",
     location: "Riviera Nayarit",
+    category: "residencial",
     scope: "Ingeniería de diseño eléctrico en media y baja tensión.",
     capacity: [
       "Servicio normal: 300 kVA",
@@ -73,6 +75,7 @@ const projects = [
     number: "03",
     name: "Torres Designo",
     location: "Huixquilucan · Estado de México",
+    category: "comercial",
     scope: "Ingeniería eléctrica As-Built en media y baja tensión, para revisión ante UVIE.",
     capacity: [
       "Servicio normal: 800 kVA",
@@ -83,7 +86,8 @@ const projects = [
     number: "04",
     name: "Edificio Reforma 397",
     location: "Ciudad de México",
-    scope: "Ingeniería e infraestructura eléctrica en media tensión; elaboración de catálogo de precios unitarios.",
+    category: "comercial",
+    scope: "Ingeniería e infraestructura eléctrica en media tensión; catálogo de precios unitarios.",
     capacity: [
       "Servicio normal: 9 MVA",
       "Servicio de emergencia: 5 MVA"
@@ -93,6 +97,7 @@ const projects = [
     number: "05",
     name: "Fraccionamiento Vista Destiladeras",
     location: "Riviera Nayarit",
+    category: "residencial",
     scope: "Ingeniería de diseño e infraestructura eléctrica en media y baja tensión.",
     capacity: [
       "Servicio normal: 850 kVA"
@@ -102,6 +107,7 @@ const projects = [
     number: "06",
     name: "Casa Noosa",
     location: "Punta de Mita · Nayarit",
+    category: "residencial",
     scope: "Ingeniería de diseño eléctrico en media y baja tensión.",
     capacity: [
       "Servicio normal: 150 kVA",
@@ -139,16 +145,19 @@ const sectors = [
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState("todos");
 
   const closeMenu = () => setMenuOpen(false);
+
+  const filteredProjects = activeFilter === "todos" 
+    ? projects 
+    : projects.filter(p => p.category === activeFilter);
 
   useEffect(() => {
     const selectors = [
       ".intro",
       ".section-heading",
-      ".service-card",
-      ".project-card",
-      ".sector-card",
+      ".interactive-card",
       ".method-step",
       ".cta-content"
     ];
@@ -179,17 +188,12 @@ function App() {
 
     elements.forEach((element, index) => {
       element.classList.add("reveal");
-
-      element.style.setProperty(
-        "--reveal-delay",
-        `${(index % 3) * 85}ms`
-      );
-
+      element.style.setProperty("--reveal-delay", `${(index % 3) * 85}ms`);
       observer.observe(element);
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [activeFilter]);
 
   return (
     <div className="site-shell">
@@ -236,7 +240,7 @@ function App() {
 
       <main>
 
-        {/* BANNER VISUAL */}
+        {/* IDENTIDAD VISUAL */}
         <section
           className="brand-banner"
           aria-label="Identidad visual de Proyectos Integrales"
@@ -287,7 +291,7 @@ function App() {
             </div>
           </div>
 
-          {/* GRÁFICO TÉCNICO INTERACTIVO / ANIMADO */}
+          {/* GRÁFICO TÉCNICO ANIMADO */}
           <div
             className="hero-visual"
             aria-label="Gráfico técnico de ingeniería eléctrica"
@@ -410,7 +414,7 @@ function App() {
                 <article className="service-card interactive-card" key={number}>
                   <div className="service-top">
                     <span>{number}</span>
-                    <Icon size={26} strokeWidth={1.5} className="card-icon" />
+                    <Icon size={25} strokeWidth={1.5} className="card-icon" />
                   </div>
 
                   <h3>{title}</h3>
@@ -443,7 +447,7 @@ function App() {
           </div>
         </section>
 
-        {/* EXPERIENCIA */}
+        {/* EXPERIENCIA CON FILTROS */}
         <section className="experience section-wrap" id="experiencia">
 
           <div className="section-heading experience-heading">
@@ -464,8 +468,29 @@ function App() {
             </p>
           </div>
 
+          <div className="filter-tabs">
+            <button 
+              className={`filter-btn ${activeFilter === "todos" ? "active" : ""}`} 
+              onClick={() => setActiveFilter("todos")}
+            >
+              TODOS LOS PROYECTOS
+            </button>
+            <button 
+              className={`filter-btn ${activeFilter === "residencial" ? "active" : ""}`} 
+              onClick={() => setActiveFilter("residencial")}
+            >
+              RESIDENCIAL DE LUJO
+            </button>
+            <button 
+              className={`filter-btn ${activeFilter === "comercial" ? "active" : ""}`} 
+              onClick={() => setActiveFilter("comercial")}
+            >
+              COMERCIAL / MIXTO
+            </button>
+          </div>
+
           <div className="project-grid">
-            {projects.map((project) => (
+            {filteredProjects.map((project) => (
               <article className="project-card interactive-card" key={project.number}>
 
                 <div className="project-number">
@@ -503,6 +528,22 @@ function App() {
             documentación técnica se comparten únicamente cuando existe
             autorización para ello.
           </p>
+        </section>
+
+        {/* BARRA DE MARCAS HOMOLOGADAS */}
+        <section className="brands-section">
+          <div className="section-wrap">
+            <div style={{ textAlign: "center", marginBottom: "30px" }}>
+              <span className="section-kicker" style={{ justifyContent: "center" }}>ESTÁNDARES Y FABRICANTES HOMOLOGADOS</span>
+            </div>
+            <div className="brands-grid">
+              <span className="brand-item">SQUARE D</span>
+              <span className="brand-item">VIAKON</span>
+              <span className="brand-item">CONDUMEX</span>
+              <span className="brand-item">SCHNEIDER ELECTRIC</span>
+              <span className="brand-item">ABB</span>
+            </div>
+          </div>
         </section>
 
         {/* SECTORES */}
