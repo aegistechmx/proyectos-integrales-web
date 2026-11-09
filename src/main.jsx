@@ -4,7 +4,7 @@ import {
   ArrowUpRight, Zap, DraftingCompass, Cable, ShieldCheck,
   Building2, Hotel, Factory, HardHat,
   Mail, Phone, MapPin, Menu, X, CheckCircle2, Cpu, Activity,
-  Globe, Award, Sparkles, Layers, ChevronDown, ShieldAlert, FileText, MessageCircle, Download, Send
+  Globe, Award, Sparkles, Layers, ChevronDown, ChevronLeft, ChevronRight, ShieldAlert, FileText, MessageCircle, Download, Send
 } from "lucide-react";
 import "./styles.css";
 
@@ -316,6 +316,9 @@ const UI = {
     contactOffice: "Oficina",
     contactLocation: "Puerto Vallarta, Jalisco · Bahía de Banderas, Nayarit",
     whatsappAria: "Escríbenos por WhatsApp",
+    lightboxClose: "Cerrar foto",
+    lightboxPrev: "Foto anterior",
+    lightboxNext: "Foto siguiente",
     whatsappText: "Hola%20Proyectos%20Integrales%2C%20quiero%20una%20propuesta%20t%C3%A9cnica%20para%20mi%20proyecto."
   },
   en: {
@@ -413,6 +416,9 @@ const UI = {
     contactOffice: "Office",
     contactLocation: "Puerto Vallarta, Jalisco · Bahía de Banderas, Nayarit",
     whatsappAria: "Message us on WhatsApp",
+    lightboxClose: "Close photo",
+    lightboxPrev: "Previous photo",
+    lightboxNext: "Next photo",
     whatsappText: "Hello%20Proyectos%20Integrales%2C%20I%20would%20like%20a%20technical%20proposal%20for%20my%20project."
   }
 };
@@ -420,6 +426,7 @@ const UI = {
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [lightboxIndex, setLightboxIndex] = useState(null);
   const [activeFilter, setActiveFilter] = useState("todos");
   const [form, setForm] = useState({ nombre: "", empresa: "", contacto: "", mensaje: "" });
   const [formSent, setFormSent] = useState(false);
@@ -481,6 +488,21 @@ function App() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return undefined;
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => {
+      if (e.key === "Escape") setLightboxIndex(null);
+      if (e.key === "ArrowRight") setLightboxIndex((i) => (i + 1) % filteredProjects.length);
+      if (e.key === "ArrowLeft") setLightboxIndex((i) => (i - 1 + filteredProjects.length) % filteredProjects.length);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [lightboxIndex, filteredProjects.length]);
 
   useEffect(() => {
     const selectors = [
@@ -825,10 +847,10 @@ function App() {
           </div>
 
           <div className="project-grid">
-            {filteredProjects.map((project) => (
+            {filteredProjects.map((project, idx) => (
               <article className="project-card interactive-card" key={project.number}>
                 {project.image && (
-                  <img className="project-image" src={project.image} alt={project.name} loading="lazy" />
+                  <img className="project-image" src={project.image} alt={project.name} loading="lazy" onClick={() => setLightboxIndex(idx)} />
                 )}
                 <div className="project-number">
                   {project.number}<span>{t.projectSuffix}</span>
@@ -1058,6 +1080,37 @@ function App() {
           © {new Date().getFullYear()} Proyectos Integrales
         </span>
       </footer>
+
+      {lightboxIndex !== null && filteredProjects[lightboxIndex] && (
+        <div className="lightbox-overlay" onClick={() => setLightboxIndex(null)} role="dialog" aria-modal="true" aria-label={filteredProjects[lightboxIndex].name}>
+          <button type="button" className="lightbox-close" onClick={() => setLightboxIndex(null)} aria-label={t.lightboxClose}>
+            <X size={28} />
+          </button>
+          <button
+            type="button"
+            className="lightbox-nav lightbox-prev"
+            onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex - 1 + filteredProjects.length) % filteredProjects.length); }}
+            aria-label={t.lightboxPrev}
+          >
+            <ChevronLeft size={32} />
+          </button>
+          <figure className="lightbox-figure" onClick={(e) => e.stopPropagation()}>
+            <img src={filteredProjects[lightboxIndex].image} alt={filteredProjects[lightboxIndex].name} />
+            <figcaption>
+              <strong>{filteredProjects[lightboxIndex].name}</strong>
+              <span>{pick(filteredProjects[lightboxIndex].location)}</span>
+            </figcaption>
+          </figure>
+          <button
+            type="button"
+            className="lightbox-nav lightbox-next"
+            onClick={(e) => { e.stopPropagation(); setLightboxIndex((lightboxIndex + 1) % filteredProjects.length); }}
+            aria-label={t.lightboxNext}
+          >
+            <ChevronRight size={32} />
+          </button>
+        </div>
+      )}
 
       <a
         className="whatsapp-float"
