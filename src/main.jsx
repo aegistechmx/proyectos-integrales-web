@@ -612,17 +612,6 @@ function App() {
 
       <main>
 
-        {/* IDENTIDAD VISUAL */}
-        <section
-          className="brand-banner"
-          aria-label="Identidad visual de Proyectos Integrales"
-        >
-          <img
-            src="/brand-banner.png"
-            alt="Proyectos Integrales — Infrastructure, Energy, Innovation"
-          />
-        </section>
-
         {/* HERO */}
         <section className="hero" id="inicio">
           <div className="hero-grid" />
@@ -663,15 +652,12 @@ function App() {
             className="hero-visual"
             aria-label={t.heroVisualAria}
           >
-            <div className="visual-orbit orbit-one" />
-            <div className="visual-orbit orbit-two" />
-            <div className="visual-crosshair" />
-
-            <div className="visual-core">
-              <Zap size={54} strokeWidth={1.2} className="icon-pulse-fast" />
-            </div>
-
-            <div className="visual-pulse" />
+            <img
+              className="hero-photo"
+              src="/proyecto-mandarina.jpg"
+              alt="One&Only Mandarina Private Homes — El Monteón, Riviera Nayarit"
+            />
+            <div className="hero-photo-overlay" aria-hidden="true" />
 
             <div className="visual-chip chip-left">
               <Activity size={12} className="icon-pulse" /> MT / BT
@@ -683,20 +669,9 @@ function App() {
               <small>{t.chipRightSmall}</small>
             </div>
 
-            <div className="visual-label label-top">
-              <span>PI / 01</span>
-              <b>{t.labelTop}</b>
-            </div>
-
             <div className="visual-label label-bottom">
               <span>{t.focusLabel}</span>
               <b>{t.labelBottom}</b>
-            </div>
-
-            <div className="visual-coordinate">
-              {t.coordinate[0]}<br />
-              {t.coordinate[1]}<br />
-              {t.coordinate[2]}
             </div>
           </div>
 
