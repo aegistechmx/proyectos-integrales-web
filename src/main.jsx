@@ -419,6 +419,7 @@ const UI = {
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [activeFilter, setActiveFilter] = useState("todos");
   const [form, setForm] = useState({ nombre: "", empresa: "", contacto: "", mensaje: "" });
   const [formSent, setFormSent] = useState(false);
@@ -471,6 +472,17 @@ function App() {
     : PROJECTS.filter(p => p.category === activeFilter);
 
   useEffect(() => {
+    const onScroll = () => {
+      const el = document.documentElement;
+      const max = el.scrollHeight - el.clientHeight;
+      setScrollProgress(max > 0 ? Math.min(100, (el.scrollTop / max) * 100) : 0);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
     const selectors = [
       ".intro",
       ".section-heading",
@@ -515,6 +527,7 @@ function App() {
 
   return (
     <div className="site-shell">
+      <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} aria-hidden="true" />
 
       {/* NAVEGACIÓN */}
       <header className="topbar">
