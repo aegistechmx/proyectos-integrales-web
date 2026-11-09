@@ -4,7 +4,7 @@ import {
   ArrowUpRight, Zap, DraftingCompass, Cable, ShieldCheck,
   Building2, Hotel, Factory, HardHat,
   Mail, Phone, MapPin, Menu, X, CheckCircle2, Cpu, Activity,
-  Globe, Award, Sparkles, Layers, ChevronDown, ShieldAlert, FileText
+  Globe, Award, Sparkles, Layers, ChevronDown, ShieldAlert, FileText, MessageCircle, Download, Send
 } from "lucide-react";
 import "./styles.css";
 
@@ -146,6 +146,20 @@ const sectors = [
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState("todos");
+  const [form, setForm] = useState({ nombre: "", empresa: "", contacto: "", mensaje: "" });
+  const [formSent, setFormSent] = useState(false);
+
+  const updateForm = (field) => (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    const subject = encodeURIComponent(`Solicitud de propuesta técnica - ${form.nombre}${form.empresa ? ` (${form.empresa})` : ""}`);
+    const body = encodeURIComponent(
+      `Nombre: ${form.nombre}\nEmpresa / Desarrollo: ${form.empresa}\nContacto: ${form.contacto}\n\n${form.mensaje}`
+    );
+    window.location.href = `mailto:proyectosintegralespv@gmail.com?subject=${subject}&body=${body}`;
+    setFormSent(true);
+  };
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -356,14 +370,14 @@ function App() {
 
               <div className="intro-text">
                 <p>
-                  Fundada en 2013[cite: 4], Proyectos Integrales es una empresa
+                  Fundada en 2013, Proyectos Integrales es una empresa
                   mexicana especializada en ingeniería eléctrica,
-                  construcción y mantenimiento[cite: 5].
+                  construcción y mantenimiento.
                 </p>
                 <p>
                   Desarrollamos soluciones que abarcan desde el diseño técnico
                   hasta la ejecución de infraestructura bajo estrictas normas
-                  nacionales e internacionales[cite: 4, 5].
+                  nacionales e internacionales.
                 </p>
                 <div className="signature">
                   <Sparkles size={16} /> No adivinamos. Calculamos.
@@ -375,17 +389,17 @@ function App() {
             <div className="data-cards-grid">
               <div className="data-card">
                 <span className="data-card-label">EXPERIENCIA</span>
-                <span className="data-card-value">Desde 2013[cite: 4] <br/><small style={{color: '#999'}}>Trayectoria firme</small></span>
+                <span className="data-card-value">Desde 2013 <br/><small style={{color: '#999'}}>Trayectoria firme</small></span>
               </div>
 
               <div className="data-card">
                 <span className="data-card-label">NORMATIVA</span>
-                <span className="data-card-value">NOM-001-SEDE[cite: 4]<br/><small style={{color: '#999'}}>Estándar oficial</small></span>
+                <span className="data-card-value">NOM-001-SEDE<br/><small style={{color: '#999'}}>Estándar oficial</small></span>
               </div>
 
               <div className="data-card">
                 <span className="data-card-label">ESPECIALIDAD</span>
-                <span className="data-card-value">Media y Baja Tensión[cite: 5]<br/><small style={{color: '#999'}}>Infraestructura</small></span>
+                <span className="data-card-value">Media y Baja Tensión<br/><small style={{color: '#999'}}>Infraestructura</small></span>
               </div>
             </div>
 
@@ -412,7 +426,7 @@ function App() {
               <p>
                 Integramos conocimiento técnico, suministro de materiales
                 y equipos, construcción y mantenimiento para desarrollar
-                infraestructura eléctrica confiable y funcional[cite: 5].
+                infraestructura eléctrica confiable y funcional.
               </p>
             </div>
 
@@ -449,7 +463,7 @@ function App() {
             <div className="service-note">
               <Zap size={17} className="icon-pulse" />
               Especial atención a infraestructura de media tensión,
-              subestaciones y transformadores[cite: 5].
+              subestaciones y transformadores.
             </div>
 
           </div>
@@ -472,7 +486,7 @@ function App() {
             </div>
 
             <p>
-              Participación en desarrollos de ingeniería eléctrica de alta escala[cite: 6, 8, 9, 10].
+              Participación en desarrollos de ingeniería eléctrica de alta escala.
             </p>
           </div>
 
@@ -519,8 +533,18 @@ function App() {
           </div>
 
           <p className="experience-footnote">
-            Los alcances descritos corresponden a la participación de Proyectos Integrales en cada contrato[cite: 6, 8, 9, 10, 11, 12].
+            Los alcances descritos corresponden a la participación de Proyectos Integrales en cada contrato.
           </p>
+
+          <div className="portfolio-download">
+            <div>
+              <h3>Currículum empresarial</h3>
+              <p>Conoce nuestros servicios, normas y proyectos en un solo documento.</p>
+            </div>
+            <a className="button button-primary" href="/Curriculum-Empresarial-Proyectos-Integrales.pdf" download>
+              <Download size={17} /> Descargar portafolio (PDF)
+            </a>
+          </div>
         </section>
 
         {/* BARRA DE MARCAS HOMOLOGADAS */}
@@ -600,21 +624,21 @@ function App() {
                 <span>01</span>
                 <div>
                   <h3>Entender</h3>
-                  <p>Definimos las necesidades, condiciones y alcance técnico del proyecto[cite: 4].</p>
+                  <p>Definimos las necesidades, condiciones y alcance técnico del proyecto.</p>
                 </div>
               </div>
               <div className="method-step">
                 <span>02</span>
                 <div>
                   <h3>Analizar y diseñar</h3>
-                  <p>Evaluamos alternativas y desarrollamos la solución de ingeniería correspondiente[cite: 5].</p>
+                  <p>Evaluamos alternativas y desarrollamos la solución de ingeniería correspondiente.</p>
                 </div>
               </div>
               <div className="method-step">
                 <span>03</span>
                 <div>
                   <h3>Integrar</h3>
-                  <p>Documentamos criterios y coordinamos los aspectos técnicos necesarios para avanzar[cite: 4, 5].</p>
+                  <p>Documentamos criterios y coordinamos los aspectos técnicos necesarios para avanzar.</p>
                 </div>
               </div>
             </div>
@@ -639,30 +663,49 @@ function App() {
               Cuéntanos qué estás desarrollando. Podemos conversar sobre el alcance y los retos técnicos de tu obra.
             </p>
 
-            <a
-              className="button button-primary button-glow"
-              href="mailto:proyectosintegralespv@gmail.com?subject=Solicitud%20de%20propuesta%20t%C3%A9cnica%20-%20Proyectos%20Integrales"
-            >
-              Solicitar propuesta técnica
-              <ArrowUpRight size={17} />
-            </a>
+            <form className="contact-form" onSubmit={submitForm}>
+              <div className="form-grid">
+                <label>
+                  Nombre
+                  <input type="text" value={form.nombre} onChange={updateForm("nombre")} placeholder="Tu nombre" required />
+                </label>
+                <label>
+                  Empresa / Desarrollo
+                  <input type="text" value={form.empresa} onChange={updateForm("empresa")} placeholder="Constructora o desarrollo" />
+                </label>
+                <label>
+                  Correo o teléfono
+                  <input type="text" value={form.contacto} onChange={updateForm("contacto")} placeholder="Para responderte" required />
+                </label>
+                <label className="form-full">
+                  Cuéntanos de tu proyecto
+                  <textarea value={form.mensaje} onChange={updateForm("mensaje")} rows={4} placeholder="Tipo de obra, ubicación, media o baja tensión, fechas…" required />
+                </label>
+              </div>
+              <button className="button button-primary button-glow" type="submit">
+                <Send size={16} /> Enviar solicitud por correo
+              </button>
+              {formSent && (
+                <p className="form-note">Se abrió tu correo con la solicitud lista para enviar. Si no se abrió, escríbenos directo a proyectosintegralespv@gmail.com.</p>
+              )}
+            </form>
 
             <div className="contact-details">
               <a href="mailto:proyectosintegralespv@gmail.com">
                 <Mail size={17} />
-                proyectosintegralespv@gmail.com[cite: 12]
+                proyectosintegralespv@gmail.com
               </a>
               <a href="tel:+523222456322">
                 <Phone size={17} />
-                +52 322 245 6322 · Celular[cite: 12]
+                +52 322 245 6322 · Celular
               </a>
               <a href="tel:+523222599687">
                 <Phone size={17} />
-                +52 322 259 9687 · Oficina[cite: 12]
+                +52 322 259 9687 · Oficina
               </a>
               <span>
                 <MapPin size={17} />
-                Puerto Vallarta, Jalisco · Bahía de Banderas, Nayarit[cite: 12]
+                Puerto Vallarta, Jalisco · Bahía de Banderas, Nayarit
               </span>
             </div>
           </div>
@@ -687,6 +730,16 @@ function App() {
           © {new Date().getFullYear()} Proyectos Integrales
         </span>
       </footer>
+
+      <a
+        className="whatsapp-float"
+        href="https://wa.me/523222456322?text=Hola%20Proyectos%20Integrales%2C%20quiero%20una%20propuesta%20t%C3%A9cnica%20para%20mi%20proyecto."
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Escríbenos por WhatsApp"
+      >
+        <MessageCircle size={26} />
+      </a>
     </div>
   );
 }

@@ -548,3 +548,61 @@ h2{font-size:clamp(34px,4vw,52px);letter-spacing:-2.2px;line-height:1.12;font-we
   .footer-motto{order:3;width:100%}
   .copyright{font-size:8px}
 }
+
+/* --- Añadidos: WhatsApp, formulario y portafolio --- */
+.whatsapp-float {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 50;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #25d366;
+  color: #0b1017;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  text-decoration: none;
+}
+.whatsapp-float:hover { transform: scale(1.06); }
+
+.contact-form { margin: 28px auto 8px; max-width: 720px; text-align: left; }
+.contact-form .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.contact-form label { display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; color: #c8d0da; }
+.contact-form .form-full { grid-column: 1 / -1; }
+.contact-form input, .contact-form textarea {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font: inherit;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.contact-form input:focus, .contact-form textarea:focus { outline: 2px solid #f5c518; border-color: transparent; }
+.contact-form button { margin-top: 16px; }
+.form-note { margin-top: 12px; font-size: 0.9rem; color: #9fe8b8; }
+@media (max-width: 640px) { .contact-form .form-grid { grid-template-columns: 1fr; } }
+
+.portfolio-download {
+  margin: 32px auto 0;
+  max-width: 860px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 22px 26px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.portfolio-download h3 { margin: 0 0 4px; }
+.portfolio-download p { margin: 0; color: #c8d0da; }
