@@ -221,7 +221,7 @@ function App() {
           aria-label="Proyectos Integrales, inicio"
           onClick={closeMenu}
         >
-          <span className="brand-mark">PI<span>.</span></span>
+          <img src="/logo-pi.png" alt="Proyectos Integrales" className="brand-logo" />
           <span className="brand-name">
             PROYECTOS<br />INTEGRALES
           </span>
@@ -716,7 +716,7 @@ function App() {
       {/* PIE DE PÁGINA */}
       <footer className="footer">
         <a className="brand footer-brand" href="#inicio">
-          <span className="brand-mark">PI<span>.</span></span>
+          <img src="/logo-pi.png" alt="Proyectos Integrales" className="brand-logo" />
           <span className="brand-name">
             PROYECTOS<br />INTEGRALES
           </span>
